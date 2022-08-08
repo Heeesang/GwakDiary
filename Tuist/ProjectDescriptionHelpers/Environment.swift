@@ -1,8 +1,8 @@
 import ProjectDescription
 
 public enum Environment {
-    public static let appName = ""
-    public static let targetName = ""
+    public static let appName = "GwakDiary"
+    public static let targetName = "GwakDiary"
     public static let targetTestName = "\(targetName)Tests"
     public static let organizationName = "baegteun"
     public static let deploymentTarget: DeploymentTarget = .iOS(targetVersion: "13.0", devices: [.iphone, .ipad])
