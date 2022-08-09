@@ -3,6 +3,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var coordinator: Coordinator?
 
     func scene(
         _ scene: UIScene,
@@ -10,6 +11,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let s = (scene as? UIWindowScene) else { return }
+        let navVC = UINavigationController()
+        
+        window = UIWindow(windowScene: s)
+        window?.rootViewController = navVC
+        coordinator = MainCoordinator(navigationController: navVC)
+        coordinator?.start()
+        window?.makeKeyAndVisible()
         
     }
     

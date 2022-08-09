@@ -26,11 +26,6 @@ let targets: [Target] = [
         sources: ["Sources/**"],
         resources: ["Resources/**"],
         scripts: scripts,
-        dependencies: [
-            .Project.Features.RootFeature,
-            .Project.Module.ThirdPartyLib,
-            .Project.Service.Data
-        ],
         settings: .settings(base: Environment.baseSetting)
     ),
     .init(
@@ -81,6 +76,9 @@ let project: Project =
     .init(
         name: Environment.targetName,
         organizationName: Environment.organizationName,
+        packages: [
+            .Lottie
+        ],
         settings: settinges,
         targets: targets,
         schemes: schemes
