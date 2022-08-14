@@ -17,7 +17,12 @@
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 public enum GwakDiaryAsset {
-  public static let accentColor = GwakDiaryColors(name: "AccentColor")
+  public enum Colors {
+    public static let gwakDiaryMainColor = GwakDiaryColors(name: "GwakDiary_MainColor")
+  }
+  public enum Images {
+    public static let accentColor = GwakDiaryColors(name: "AccentColor")
+  }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 
