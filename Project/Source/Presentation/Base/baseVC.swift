@@ -14,5 +14,31 @@ class baseVC<T: baseViewModel>: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @available(*, unavailable)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        setup()
+        addView()
+        setLayout()
+        configureVC()
+        bindVM()
+    }
     
+    @available(*, unavailable)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        viewModel.coordinator.didFinish(coordinator: viewModel.coordinator)
+    }
+    
+    deinit{
+        print("\(type(of: self)): \(#function)")
+    }
+
+    
+    func setup(){}
+    func addView(){}
+    func setLayout(){}
+    func configureVC(){}
+    func bindVM(){}
 }
