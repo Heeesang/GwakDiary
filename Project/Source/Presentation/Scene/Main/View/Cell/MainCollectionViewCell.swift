@@ -1,5 +1,7 @@
 import UIKit
 
-final class MainCollectionViewCell: baseCollectionViewCell {
+final class MainCollectionViewCell: baseCollectionViewCell<DiaryModel> {
+    
+    
     
 }
