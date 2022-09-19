@@ -19,7 +19,9 @@ final class DiaryCell: baseCollectionViewCell<DiaryModel> {
     }
     
     private let diaryLineView = UIView().then {
-        $0.backgroundColor = UIColor(red: 1, green: 0.723, blue: 0.663, alpha: 1)
+        $0.backgroundColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
+        $0.layer.cornerRadius = 5
+        
     }
     
     override func addView() {
@@ -34,8 +36,16 @@ final class DiaryCell: baseCollectionViewCell<DiaryModel> {
             $0.leading.equalToSuperview()
         }
         
+        diaryLineView.snp.makeConstraints {
+            $0.height.equalTo(9)
+            $0.leading.equalToSuperview().offset(40)
+            $0.bottom.equalTo(diaryContainerView.snp.bottom)
+            $0.centerX.equalToSuperview()
+        }
+        
         diaryTitleView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(35)
         }
     }
     
