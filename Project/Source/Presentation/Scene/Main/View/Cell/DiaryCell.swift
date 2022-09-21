@@ -45,7 +45,7 @@ final class DiaryCell: baseCollectionViewCell<DiaryModel> {
         
         diaryTitleView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(35)
+            $0.top.equalToSuperview().offset(30)
         }
     }
     
