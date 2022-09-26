@@ -6,8 +6,15 @@ class MainViewController: baseVC<MainViewModel> {
     private var sampleData: [String] = ["노혁의 연애 일기","일기","희상","준회의 솔로 일기"]
     
     private let mainTextLabel = UILabel().then {
-        $0.text = "곽 Diary"
-        $0.font = .systemFont(ofSize: 20)
+        $0.text = "곽. Diary"
+        $0.font = .systemFont(ofSize: 20, weight: .semibold)
+        $0.textColor = UIColor(red: 0.475, green: 0.475, blue: 0.475, alpha: 1)
+    }
+    
+    private let subTextLabel = UILabel().then {
+        $0.text = "오늘의 장면을 기록하세요"
+        $0.font = .systemFont(ofSize: 12, weight: .semibold)
+        $0.textColor = UIColor(red: 0.475, green: 0.475, blue: 0.475, alpha: 1)
     }
     
     private let flowLayout = UICollectionViewFlowLayout().then {
@@ -26,14 +33,16 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     private let addButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "pencil.circle.fill"), for: .normal)
-        $0.tintColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
-        $0.contentVerticalAlignment = .fill
-        $0.contentHorizontalAlignment = .fill
+        $0.setTitle("글 쓰기", for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        $0.tintColor = .white
+        $0.backgroundColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
+        
+        $0.layer.cornerRadius = 10
     }
     
     override func addView() {
-        view.addSubViews(mainTextLabel, diaryCollectionView, addButton)
+        view.addSubViews(mainTextLabel, subTextLabel, diaryCollectionView, addButton)
     }
     
     override func setLayout() {
@@ -46,13 +55,19 @@ class MainViewController: baseVC<MainViewModel> {
         
         mainTextLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(100)
+            $0.top.equalToSuperview().offset(130)
+        }
+        
+        subTextLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(mainTextLabel.snp.bottom).offset(13)
         }
         
         addButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(diaryCollectionView.snp.bottom).offset(80)
-            $0.size.equalTo(45)
+            $0.height.equalTo(35)
+            $0.leading.equalTo(120)
         }
     }
     
