@@ -3,7 +3,7 @@ import SnapKit
 import Then
 
 class MainViewController: baseVC<MainViewModel> {
-    private var sampleData: [String] = ["노혁의 연애 일기","일기","희상","준회의 솔로 일기"]
+    private var sampleData: [String] = ["노혁의 연애 일기","일기","희상","준화의 솔로 일기"]
     
     private let mainTextLabel = UILabel().then {
         $0.text = "곽. Diary"

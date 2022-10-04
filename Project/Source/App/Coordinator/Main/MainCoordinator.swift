@@ -2,8 +2,8 @@
 final class MainCoordinator: baseCoordinator {
     
     override func start() {
-        let vm = MainViewModel(coordinator: self)
-        let vc = MainViewController(viewModel: vm)
+        let vm = ReadDiaryViewModel(coordinator: self)
+        let vc = ReadDiaryViewController(viewModel: vm)
         
         navigationController.pushViewController(vc, animated: true)
     }
