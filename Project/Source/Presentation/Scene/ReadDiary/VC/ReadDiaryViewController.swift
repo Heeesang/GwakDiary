@@ -6,42 +6,36 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.shadowRadius = 15
-        $0.layer.shadowOffset =
-        CGSize(width: 0, height: 0)
+        $0.layer.shadowOffset = CGSize(width: 0, height: 0)
         $0.layer.shadowOpacity = 1
         $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
     }
     
     private let titleTextField = UITextField().then {
         $0.text = "일기 제목"
+        $0.textColor = .secondaryLabel
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
-        $0.layer.shadowRadius = 15
-        $0.layer.shadowOffset =
-        CGSize(width: 0, height: 0)
-        $0.layer.shadowOpacity = 1
-        $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
-    
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
     }
     
-    private let writeDiaryTextField = UITextField().then {
+    private let writeDiaryTextView = UITextView().then {
         $0.text = "오늘 무슨 일이 있었나요?"
         $0.backgroundColor = .white
-        $0.layer.cornerRadius = 19
-        $0.layer.shadowRadius = 15
-        $0.layer.shadowOffset =
-        CGSize(width: 0, height: 0)
-        $0.layer.shadowOpacity = 1
-        $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
+        $0.layer.cornerRadius = 10
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
     }
     
     private let writeDiaryButton = UIButton().then {
-        $0.layer.cornerRadius = 27
+        $0.setTitle("일기 작성", for: .normal)
+        $0.layer.cornerRadius = 20
         $0.backgroundColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
     }
     
     override func addView() {
-        view.addSubViews(addImageButton, titleTextField, writeDiaryTextField, writeDiaryButton)
+        view.addSubViews(addImageButton, titleTextField, writeDiaryTextView, writeDiaryButton)
     }
     
     override func setLayout() {
@@ -59,7 +53,7 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
             $0.leading.equalTo(40)
         }
         
-        writeDiaryTextField.snp.makeConstraints {
+        writeDiaryTextView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(titleTextField.snp.bottom).offset(40)
             $0.height.equalTo(333)
@@ -68,7 +62,7 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
         
         writeDiaryButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(writeDiaryTextField.snp.bottom).offset(30)
+            $0.top.equalTo(writeDiaryTextView.snp.bottom).offset(30)
             $0.height.equalTo(46)
             $0.leading.equalTo(40)
         }
