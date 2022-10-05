@@ -3,6 +3,9 @@ import UIKit
 class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     
     private let addImageButton = UIButton().then {
+        $0.setTitle("사진 추가", for: .normal)
+        $0.setTitleColor(.secondaryLabel, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.shadowRadius = 15
@@ -14,6 +17,7 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     private let titleTextField = UITextField().then {
         $0.text = "일기 제목"
         $0.textColor = .secondaryLabel
+        $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
@@ -22,6 +26,7 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     
     private let writeDiaryTextView = UITextView().then {
         $0.text = "오늘 무슨 일이 있었나요?"
+        $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
@@ -30,6 +35,7 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     
     private let writeDiaryButton = UIButton().then {
         $0.setTitle("일기 작성", for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         $0.layer.cornerRadius = 20
         $0.backgroundColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
     }
