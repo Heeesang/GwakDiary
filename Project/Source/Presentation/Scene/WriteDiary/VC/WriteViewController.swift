@@ -1,7 +1,6 @@
 import UIKit
 
-class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
-    
+class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
     private let addImageButton = UIButton().then {
         $0.setTitle("사진 추가", for: .normal)
         $0.setTitleColor(.secondaryLabel, for: .normal)
@@ -12,6 +11,12 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
         $0.layer.shadowOffset = CGSize(width: 0, height: 0)
         $0.layer.shadowOpacity = 1
         $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
+    }
+    
+    private lazy var writeContentLabel = UILabel().then {
+        $0.text = "0/200"
+        $0.textColor = .secondaryLabel
+        $0.font = .systemFont(ofSize: 10, weight: .medium)
     }
     
     private let titleTextField = UITextField().then {
@@ -28,6 +33,7 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     private let writeDiaryTextView = UITextView().then {
         $0.text = "오늘 무슨 일이 있었나요?"
         $0.font = .systemFont(ofSize: 12, weight: .medium)
+        $0.textColor = .placeholderText
         $0.textContainerInset = UIEdgeInsets(top: 16.0, left: 7.0, bottom: 16.0, right: 7.0)
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
@@ -42,8 +48,12 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
         $0.backgroundColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
     }
     
+    override func configureVC() {
+        writeDiaryTextView.delegate = self
+    }
+    
     override func addView() {
-        view.addSubViews(addImageButton, titleTextField, writeDiaryTextView, writeDiaryButton)
+        view.addSubViews(addImageButton, titleTextField, writeContentLabel, writeDiaryTextView, writeDiaryButton)
     }
     
     override func setLayout() {
@@ -59,6 +69,11 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
             $0.top.equalTo(addImageButton.snp.bottom).offset(60)
             $0.height.equalTo(32)
             $0.leading.equalTo(40)
+        }
+        
+        writeContentLabel.snp.makeConstraints {
+            $0.bottom.equalTo(writeDiaryTextView.snp.top)
+            $0.trailing.equalTo(writeDiaryTextView.snp.trailing).inset(5)
         }
         
         writeDiaryTextView.snp.makeConstraints {
@@ -77,18 +92,26 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     }
 }
 
-extension ViewController: UITextViewDelegate {
+extension WriteDiaryViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == textViewPlaceHolder {
+            guard textView.textColor == .placeholderText else { return }
+            textView.textColor = .label
             textView.text = nil
-            textView.textColor = .black
         }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+            if textView.text.isEmpty {
+                textView.text = "오늘 무슨 일이 있었나요?"
+                textView.textColor = .placeholderText
+            }
+        }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard let str = textView.text else { return true }
+        let newLength = str.count + text.count - range.length
+        
+        writeContentLabel.text = "\(newLength)/350"
+        return newLength <= 400
     }
 
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = textViewPlaceHolder
-            textView.textColor = .lightGray
-            updateCountLabel(characterCount: 0)
-        }
-    }
+}

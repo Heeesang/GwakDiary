@@ -1,5 +1,5 @@
 import UIKit
 
-class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
+class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     
 }

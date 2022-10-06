@@ -1,5 +1,5 @@
 import UIKit
 
-class ReadDiaryViewModel: baseViewModel {
+class WriteDiaryViewModel: baseViewModel {
     
 }
