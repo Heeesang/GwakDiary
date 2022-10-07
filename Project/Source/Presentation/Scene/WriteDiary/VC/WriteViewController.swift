@@ -14,14 +14,14 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
     }
     
     private lazy var writeContentLabel = UILabel().then {
-        $0.text = "0/200"
+        $0.text = "0/400"
         $0.textColor = .secondaryLabel
         $0.font = .systemFont(ofSize: 10, weight: .medium)
     }
     
     private let titleTextField = UITextField().then {
-        $0.text = "일기 제목"
-        $0.textColor = .secondaryLabel
+        $0.placeholder = "일기 제목"
+        $0.textColor = .label
         $0.addLeftPadding()
         $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.backgroundColor = .white
@@ -50,6 +50,7 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
     
     override func configureVC() {
         writeDiaryTextView.delegate = self
+        titleTextField.delegate = self
     }
     
     override func addView() {
@@ -92,7 +93,7 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
     }
 }
 
-extension WriteDiaryViewController: UITextViewDelegate {
+extension WriteDiaryViewController: UITextViewDelegate, UITextFieldDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
             guard textView.textColor == .placeholderText else { return }
             textView.textColor = .label
@@ -113,5 +114,16 @@ extension WriteDiaryViewController: UITextViewDelegate {
         writeContentLabel.text = "\(newLength)/350"
         return newLength <= 400
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+          if let char = string.cString(using: String.Encoding.utf8) {
+              let isBackSpace = strcmp(char, "\\b")
+              if isBackSpace == -92 {
+                  return true
+              }
+          }
+          guard textField.text!.count < 5 else { return false }
+          return true
+      }
 
 }
