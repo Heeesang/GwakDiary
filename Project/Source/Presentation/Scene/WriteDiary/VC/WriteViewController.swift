@@ -20,7 +20,7 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
     }
     
     private let titleTextField = UITextField().then {
-        $0.placeholder = "일기 제목"
+        $0.placeholder = "일기 제목 (최대 15자)"
         $0.textColor = .label
         $0.addLeftPadding()
         $0.font = .systemFont(ofSize: 12, weight: .medium)
@@ -122,7 +122,7 @@ extension WriteDiaryViewController: UITextViewDelegate, UITextFieldDelegate {
                   return true
               }
           }
-          guard textField.text!.count < 5 else { return false }
+          guard textField.text!.count < 15 else { return false }
           return true
       }
 
