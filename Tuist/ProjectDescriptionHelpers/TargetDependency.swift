@@ -8,6 +8,7 @@ public extension TargetDependency.SPM{
     static let SnapKit = TargetDependency.package(product: "SnapKit")
     static let Then = TargetDependency.package(product: "Then")
     static let GoogleSignIn = TargetDependency.package(product: "GoogleSignIn")
+    static let RealmSwift = TargetDependency.package(product: "RealmSwift")
 }
 
 public extension Package {
@@ -23,4 +24,7 @@ public extension Package {
         url: "https://github.com/google/GoogleSignIn-iOS",
         requirement: .upToNextMajor(from: "6.2.2")
     )
+    static let RealmSwift = Package.remote(
+            url: "https://github.com/realm/realm-swift",
+            requirement: .upToNextMajor(from: "10.29.0"))
 }
