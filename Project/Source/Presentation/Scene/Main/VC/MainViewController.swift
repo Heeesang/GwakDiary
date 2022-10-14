@@ -3,6 +3,7 @@ import SnapKit
 import Then
 
 class MainViewController: baseVC<MainViewModel> {
+    
     private var sampleData: [String] = ["노혁의 연애 일기","일기","희상","준화의 솔로 일기"]
     private var mainData: [DiaryModel] = []
     
@@ -38,7 +39,6 @@ class MainViewController: baseVC<MainViewModel> {
         $0.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
         $0.tintColor = .white
         $0.backgroundColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
-        
         $0.layer.cornerRadius = 10
     }
     

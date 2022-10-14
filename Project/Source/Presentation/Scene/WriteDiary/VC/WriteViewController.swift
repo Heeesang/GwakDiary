@@ -1,6 +1,7 @@
 import UIKit
 
 class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
+   
     private let addImageButton = UIButton().then {
         $0.setTitle("사진 추가", for: .normal)
         $0.setTitleColor(.secondaryLabel, for: .normal)
