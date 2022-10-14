@@ -25,10 +25,6 @@ class baseCoordinator: Coordinator {
         
     }
     
-    func navigate(to step: GwakDiaryStep) {
-        
-    }
-    
     func removeChildCoordinatiors() {
         
     }

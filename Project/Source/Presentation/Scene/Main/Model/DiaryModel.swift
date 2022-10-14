@@ -6,7 +6,7 @@ class DiaryModel: Object {
     @Persisted var title: String
     @Persisted var contents: String
     
-    convenience init(id: String, title: String, contents: String){
+    convenience init(title: String, contents: String){
         self.init()
         self.id = UUID().uuidString
         self.title = title

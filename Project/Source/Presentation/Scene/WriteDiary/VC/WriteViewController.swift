@@ -46,6 +46,21 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         $0.layer.cornerRadius = 20
         $0.backgroundColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
+        $0.addTarget(self, action: #selector(addDiary), for: .touchUpInside)
+    }
+    
+    @objc func addDiary(_sender: Any) {
+        let alert = UIAlertController(title: "일기 작성", message: "일기를 작성하시겠습니까?", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: { action in
+            self.viewModel.selectButtonDidTap(title: self.titleTextField.text ?? "", content: self.writeDiaryTextView.text)
+        })
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func configureVC() {
