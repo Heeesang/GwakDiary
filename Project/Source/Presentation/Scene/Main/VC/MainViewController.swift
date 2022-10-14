@@ -4,6 +4,7 @@ import Then
 
 class MainViewController: baseVC<MainViewModel> {
     private var sampleData: [String] = ["노혁의 연애 일기","일기","희상","준화의 솔로 일기"]
+    private var mainData: [DiaryModel] = []
     
     private let mainTextLabel = UILabel().then {
         $0.text = "곽. Diary"
@@ -79,7 +80,7 @@ class MainViewController: baseVC<MainViewModel> {
 
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.sampleData.count
+        self.viewModel.diarys.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

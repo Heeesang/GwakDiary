@@ -55,6 +55,7 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
         let okAction = UIAlertAction(title: "확인", style: .default, handler: { action in
             self.viewModel.selectButtonDidTap(title: self.titleTextField.text ?? "", content: self.writeDiaryTextView.text)
         })
+        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alert.addAction(okAction)
