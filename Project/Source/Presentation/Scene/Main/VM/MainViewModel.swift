@@ -11,6 +11,10 @@ class MainViewModel: baseViewModel {
         
         self.diarys = results.toArray()
     }
+    
+    func writeDiaryButtonDidTap() {
+        coordinator.navigate(to: .writeDiaryRequired)
+    }
 }
 
 extension Results {

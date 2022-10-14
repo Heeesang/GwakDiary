@@ -22,12 +22,12 @@ private extension MainCoordinator {
     func navigateToReadDiary() {
         let vm = ReadDiaryViewModel(coordinator: self)
         let vc = ReadDiaryViewController(viewModel: vm)
-        self.navigationController.setViewControllers([vc], animated: true)
+        self.navigationController.pushViewController(vc, animated: true)
     }
     func navigateToWriteDiary() {
         let vm = WriteDiaryViewModel(coordinator: self)
         let vc = WriteDiaryViewController(viewModel: vm)
-        self.navigationController.setViewControllers([vc], animated: true)
+        self.navigationController.pushViewController(vc, animated: true)
     }
 }
     

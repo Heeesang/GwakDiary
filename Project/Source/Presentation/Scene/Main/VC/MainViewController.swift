@@ -34,12 +34,17 @@ class MainViewController: baseVC<MainViewModel> {
         $0.register(DiaryCell.self, forCellWithReuseIdentifier: "MyCell")
     }
     
-    private let addButton = UIButton().then {
+    private lazy var addButton = UIButton().then {
         $0.setTitle("글 쓰기", for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
         $0.tintColor = .white
         $0.backgroundColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
         $0.layer.cornerRadius = 10
+        $0.addTarget(self, action: #selector(writeDiaryButtonDidTap(_:)), for: .touchUpInside)
+    }
+    
+    @objc func writeDiaryButtonDidTap(_ sender: UIButton) {
+        viewModel.writeDiaryButtonDidTap()
     }
     
     override func addView() {
