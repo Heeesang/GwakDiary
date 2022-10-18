@@ -4,7 +4,7 @@ final class DiaryCell: baseCollectionViewCell<DiaryModel> {
     
     static let id = "MyCell"
     
-    private let diaryContainerView = UIView().then {
+    private let diaryContainerButton = UIButton().then {
         $0.backgroundColor = .white
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 10
@@ -22,16 +22,15 @@ final class DiaryCell: baseCollectionViewCell<DiaryModel> {
     private let diaryLineView = UIView().then {
         $0.backgroundColor = GwakDiaryAsset.Colors.gwakDiaryMainColor.color
         $0.layer.cornerRadius = 5
-        
     }
     
     override func addView() {
-        addSubViews(diaryContainerView)
-        diaryContainerView.addSubViews(diaryTitleView, diaryLineView)
+        addSubViews(diaryContainerButton)
+        diaryContainerButton.addSubViews(diaryTitleView, diaryLineView)
     }
     
     override func setLayout() {
-        diaryContainerView.snp.makeConstraints {
+        diaryContainerButton.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
             $0.height.equalTo(272)
             $0.leading.equalToSuperview()
@@ -40,7 +39,7 @@ final class DiaryCell: baseCollectionViewCell<DiaryModel> {
         diaryLineView.snp.makeConstraints {
             $0.height.equalTo(9)
             $0.leading.equalToSuperview().offset(40)
-            $0.bottom.equalTo(diaryContainerView.snp.bottom)
+            $0.bottom.equalTo(diaryContainerButton.snp.bottom)
             $0.centerX.equalToSuperview()
         }
         
