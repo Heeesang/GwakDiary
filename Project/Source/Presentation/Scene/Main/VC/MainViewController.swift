@@ -1,11 +1,10 @@
 import UIKit
 import SnapKit
 import Then
+import RealmSwift
 
 class MainViewController: baseVC<MainViewModel> {
-    
     private var sampleData: [String] = ["노혁의 연애 일기","일기","희상","준화의 솔로 일기"]
-    private var mainData: [DiaryModel] = []
     
     private let mainTextLabel = UILabel().then {
         $0.text = "곽. Diary"
@@ -79,6 +78,7 @@ class MainViewController: baseVC<MainViewModel> {
     
     override func configureVC() {
         diaryCollectionView.dataSource = self
+        viewModel.addMainData()
     }
     
 }
@@ -90,7 +90,7 @@ extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCell.id, for: indexPath) as! DiaryCell
-        cell.prepare(title: self.sampleData[indexPath.item])
+        cell.prepare(title: viewModel.diarys[indexPath.row].title)
            return cell
     }
     

@@ -10,6 +10,7 @@ class MainViewModel: baseViewModel {
         let results = realm.objects(DiaryModel.self)
         
         self.diarys = results.toArray()
+        print(diarys)
     }
     
     func writeDiaryButtonDidTap() {
