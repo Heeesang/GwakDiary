@@ -16,6 +16,10 @@ class MainViewModel: baseViewModel {
     func writeDiaryButtonDidTap() {
         coordinator.navigate(to: .writeDiaryRequired)
     }
+    
+    func readDiaryButtonDidTap() {
+        coordinator.navigate(to: .readDiaryRequired)
+    }
 }
 
 extension Results {

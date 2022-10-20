@@ -3,6 +3,7 @@ import UIKit
 class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     
     private let mainImageView = UIImageView().then{
+        $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.shadowRadius = 15
         $0.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -20,7 +21,6 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     }
     
     private let contentsLabel = UILabel().then {
-        $0.text = "오늘 무슨 일이 있었나요?"
         $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.textColor = .placeholderText
         $0.backgroundColor = .white
@@ -30,9 +30,29 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     }
     
     override func addView() {
-        
+        view.addSubViews(mainImageView,titleLabel,contentsLabel)
     }
+    
     override func setLayout() {
+        mainImageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(view.safeAreaInsets).offset(100)
+            $0.height.equalTo(102)
+            $0.leading.equalTo(100)
+        }
+
+        titleLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(mainImageView.snp.bottom).offset(60)
+            $0.height.equalTo(32)
+            $0.leading.equalTo(40)
+        }
         
+        contentsLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(titleLabel.snp.bottom).offset(40)
+            $0.height.equalTo(333)
+            $0.leading.equalTo(40)
+        }
     }
 }

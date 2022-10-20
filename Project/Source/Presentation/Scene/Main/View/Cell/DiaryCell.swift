@@ -4,7 +4,8 @@ final class DiaryCell: baseCollectionViewCell<DiaryModel> {
     
     static let id = "MyCell"
     
-    private let diaryContainerButton = UIButton().then {
+    public let diaryContainerButton = UIButton().then {
+        
         $0.backgroundColor = .white
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 10

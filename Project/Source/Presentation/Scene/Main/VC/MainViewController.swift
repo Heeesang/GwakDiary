@@ -46,6 +46,10 @@ class MainViewController: baseVC<MainViewModel> {
         viewModel.writeDiaryButtonDidTap()
     }
     
+    @objc func readDiaryButtonDidTap(_ sender: UIButton) {
+        viewModel.readDiaryButtonDidTap()
+    }
+    
     override func addView() {
         view.addSubViews(mainTextLabel, subTextLabel, diaryCollectionView, addButton)
     }
@@ -91,7 +95,8 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCell.id, for: indexPath) as! DiaryCell
         cell.prepare(title: viewModel.diarys[indexPath.row].title)
-           return cell
+        cell.diaryContainerButton.addTarget(self, action: #selector(readDiaryButtonDidTap(_:)), for: .touchUpInside)
+        return cell
     }
     
     
