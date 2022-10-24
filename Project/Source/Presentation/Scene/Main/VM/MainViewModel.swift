@@ -14,11 +14,13 @@ class MainViewModel: baseViewModel {
     }
     
     func writeDiaryButtonDidTap() {
-        coordinator.navigate(to: .writeDiaryRequired)
+        coordinator.navigate(to: .writeDiaryRequired {})
     }
     
     func readDiaryButtonDidTap() {
-        coordinator.navigate(to: .readDiaryRequired)
+        coordinator.navigate(to: .readDiaryRequired {
+            
+        })
     }
 }
 
