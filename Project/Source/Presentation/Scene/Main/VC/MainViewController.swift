@@ -84,7 +84,6 @@ class MainViewController: baseVC<MainViewModel> {
         diaryCollectionView.dataSource = self
         viewModel.addMainData()
     }
-    
 }
 
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {

@@ -10,21 +10,21 @@ final class MainCoordinator: baseCoordinator {
     
     override func navigate(to step: GwakDiaryStep) {
         switch step {
-        case let .writeDiaryRequired(closure):
-            navigateToWriteDiary(closure: closure)
-        case let .readDiaryRequired(closure):
-            navigateToReadDiary(closure: closure)   
+        case .writeDiaryRequired:
+            navigateToWriteDiary()
+        case let .readDiaryRequired(contents):
+            navigateToReadDiary(contents: contents)
         }
     }
 }
 
 private extension MainCoordinator {
-    func navigateToReadDiary(closure: () -> Void) {
-        let vm = ReadDiaryViewModel(coordinator: self)
+    func navigateToReadDiary(contents: String) {
+        let vm = ReadDiaryViewModel(coordinator: self, contents: contents)
         let vc = ReadDiaryViewController(viewModel: vm)
         self.navigationController.pushViewController(vc, animated: true)
     }
-    func navigateToWriteDiary(closure: () -> Void) {
+    func navigateToWriteDiary() {
         let vm = WriteDiaryViewModel(coordinator: self)
         let vc = WriteDiaryViewController(viewModel: vm)
         self.navigationController.pushViewController(vc, animated: true)

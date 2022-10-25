@@ -1,4 +1,6 @@
 enum GwakDiaryStep {
-    case writeDiaryRequired(() -> Void)
-    case readDiaryRequired(() -> Void)
+    
+    case writeDiaryRequired
+    case readDiaryRequired(contents: String)
+
 }

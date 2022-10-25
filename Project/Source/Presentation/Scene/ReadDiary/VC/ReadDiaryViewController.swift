@@ -55,4 +55,12 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
             $0.leading.equalTo(40)
         }
     }
+    
+    
+    override func configureVC() {
+        writeDiaryButtonDidTap()
+    }
+    func writeDiaryButtonDidTap() {
+        viewModel.addMainData()
+    }
 }
