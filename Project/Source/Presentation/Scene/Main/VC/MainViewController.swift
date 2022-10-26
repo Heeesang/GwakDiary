@@ -25,6 +25,7 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     private lazy var diaryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: self.flowLayout).then {
+        $0.backgroundColor = .blue
         $0.isScrollEnabled = true
         $0.showsHorizontalScrollIndicator = false
         $0.showsVerticalScrollIndicator = true
@@ -58,6 +59,7 @@ class MainViewController: baseVC<MainViewModel> {
         diaryCollectionView.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
             $0.height.equalTo(300)
+            $0.width.equalTo(300)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
         }
@@ -82,11 +84,12 @@ class MainViewController: baseVC<MainViewModel> {
     
     override func configureVC() {
         diaryCollectionView.dataSource = self
+        diaryCollectionView.delegate = self
         viewModel.addMainData()
     }
 }
 
-extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.viewModel.diarys.count
     }
@@ -95,10 +98,15 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCell.id, for: indexPath) as! DiaryCell
         cell.prepare(title: viewModel.diarys[indexPath.row].title)
         cell.diaryContainerButton.addTarget(self, action: #selector(readDiaryButtonDidTap(_:)), for: .touchUpInside)
+        
+        let diary = viewModel.diarys[indexPath.row]
+        
+        viewModel.diary = diary
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        print("touch")
     }
 }

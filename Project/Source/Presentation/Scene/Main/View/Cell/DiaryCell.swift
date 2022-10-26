@@ -16,6 +16,7 @@ final class DiaryCell: baseCollectionViewCell<DiaryModel> {
     
     private let diaryTitleView = UILabel().then {
         $0.font = .systemFont(ofSize: 15)
+        $0.text = ""
         $0.textColor = UIColor(red: 0.633, green: 0.625, blue: 0.625, alpha: 1)
     }
     

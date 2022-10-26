@@ -12,15 +12,15 @@ final class MainCoordinator: baseCoordinator {
         switch step {
         case .writeDiaryRequired:
             navigateToWriteDiary()
-        case let .readDiaryRequired(contents):
-            navigateToReadDiary(contents: contents)
+        case let .readDiaryRequired(diary):
+            navigateToReadDiary(diary: diary)
         }
     }
 }
 
 private extension MainCoordinator {
-    func navigateToReadDiary(contents: String) {
-        let vm = ReadDiaryViewModel(coordinator: self, contents: contents)
+    func navigateToReadDiary(diary: DiaryModel) {
+        let vm = ReadDiaryViewModel(coordinator: self, diary: diary)
         let vc = ReadDiaryViewController(viewModel: vm)
         self.navigationController.pushViewController(vc, animated: true)
     }

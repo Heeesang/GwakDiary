@@ -1,6 +1,6 @@
 enum GwakDiaryStep {
     
     case writeDiaryRequired
-    case readDiaryRequired(contents: String)
+    case readDiaryRequired(diary: DiaryModel)
 
 }

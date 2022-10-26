@@ -29,6 +29,10 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
         $0.layer.borderColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
     }
     
+    func dataInsert() {
+        self.titleLabel.text = viewModel.diary.title
+    }
+    
     override func addView() {
         view.addSubViews(mainImageView,titleLabel,contentsLabel)
     }
@@ -54,5 +58,9 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
             $0.height.equalTo(333)
             $0.leading.equalTo(40)
         }
+    }
+    
+    override func configureVC() {
+        dataInsert()
     }
 }

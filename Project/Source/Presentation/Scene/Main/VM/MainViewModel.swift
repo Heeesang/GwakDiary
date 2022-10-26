@@ -5,6 +5,7 @@ class MainViewModel: baseViewModel {
     
     var diarys: [DiaryModel] = []
     var contents = ""
+    var diary: DiaryModel = DiaryModel(title: "", contents: "")
     
     func addMainData() {
         let realm = try! Realm()
@@ -16,11 +17,10 @@ class MainViewModel: baseViewModel {
     
     func writeDiaryButtonDidTap() {
         coordinator.navigate(to: .writeDiaryRequired)
-        
     }
     
     func readDiaryButtonDidTap() {
-        coordinator.navigate(to: .readDiaryRequired(contents: contents))
+        coordinator.navigate(to: .readDiaryRequired(diary: diary))
     }
 }
 

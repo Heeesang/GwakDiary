@@ -6,9 +6,10 @@ class ReadDiaryViewModel: baseViewModel {
     
     var contents: String = ""
     var diarys: [DiaryModel] = []
+    var diary: DiaryModel = DiaryModel(title: "", contents: "")
     
-    init(coordinator: baseCoordinator, contents: String) {
+    init(coordinator: baseCoordinator, diary: DiaryModel) {
         super.init(coordinator: coordinator)
-        self.contents = contents
+        self.diary = diary
     }
 }
