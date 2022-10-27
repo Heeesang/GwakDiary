@@ -31,6 +31,7 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     
     func dataInsert() {
         self.titleLabel.text = viewModel.diary.title
+        self.contentsLabel.text = viewModel.diary.contents
     }
     
     override func addView() {

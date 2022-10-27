@@ -94,15 +94,14 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCell.id, for: indexPath) as! DiaryCell
         cell.prepare(title: viewModel.diarys[indexPath.row].title)
 //        cell.diaryContainerButton.addTarget(self, action: #selector(readDiaryButtonDidTap(_:)), for: .touchUpInside)
-        
-        let diary = viewModel.diarys[indexPath.row]
-        print(diary)
-        viewModel.diary = diary
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("touch")
+        let diary = viewModel.diarys[indexPath.row]
+        print(diary)
+        viewModel.diary = diary
+        viewModel.readDiaryButtonDidTap()
     }
 }
