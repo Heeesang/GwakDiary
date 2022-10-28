@@ -2,6 +2,8 @@ import UIKit
 
 class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
    
+    weak var delegate: WriteDiaryViewDelegate?
+    
     private let addImageButton = UIButton().then {
         $0.setTitle("사진 추가", for: .normal)
         $0.setTitleColor(.secondaryLabel, for: .normal)
@@ -55,6 +57,7 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
         
         let okAction = UIAlertAction(title: "확인", style: .default, handler: { action in
             self.viewModel.selectButtonDidTap(title: self.titleTextField.text ?? "", content: self.writeDiaryTextView.text)
+            self.viewModel.selectAlertOkButtonDidTap()
         })
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
