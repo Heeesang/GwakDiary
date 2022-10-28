@@ -10,6 +10,8 @@ final class MainCoordinator: baseCoordinator {
     
     override func navigate(to step: GwakDiaryStep) {
         switch step {
+        case .popVC:
+            navigatePopVC()
         case .writeDiaryRequired:
             navigateToWriteDiary()
         case let .readDiaryRequired(diary):
@@ -19,6 +21,9 @@ final class MainCoordinator: baseCoordinator {
 }
 
 private extension MainCoordinator {
+    func navigatePopVC() {
+        self.navigationController.popViewController(animated: true)
+    }
     func navigateToReadDiary(diary: DiaryModel) {
         let vm = ReadDiaryViewModel(coordinator: self, diary: diary)
         let vc = ReadDiaryViewController(viewModel: vm)
