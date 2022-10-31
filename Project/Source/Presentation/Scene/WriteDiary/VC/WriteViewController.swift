@@ -1,13 +1,8 @@
 import UIKit
+import PhotosUI
 
 class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
-   
-    weak var delegate: WriteDiaryViewDelegate?
-    
-    private let addImageButton = UIButton().then {
-        $0.setTitle("사진 추가", for: .normal)
-        $0.setTitleColor(.secondaryLabel, for: .normal)
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+    private let addImageView = UIImageView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.shadowRadius = 15
@@ -15,6 +10,13 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
         $0.layer.shadowOpacity = 1
         $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
     }
+    
+    private var mainPHConfiguration: PHPickerConfiguration = {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 1
+        return config
+    }()
     
     private lazy var writeContentLabel = UILabel().then {
         $0.text = "0/400"
@@ -74,11 +76,11 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
     }
     
     override func addView() {
-        view.addSubViews(addImageButton, titleTextField, writeContentLabel, writeDiaryTextView, writeDiaryButton)
+        view.addSubViews(addImageView, titleTextField, writeContentLabel, writeDiaryTextView, writeDiaryButton)
     }
     
     override func setLayout() {
-        addImageButton.snp.makeConstraints {
+        addImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(view.safeAreaInsets).offset(100)
             $0.height.equalTo(102)
@@ -87,7 +89,7 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
 
         titleTextField.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(addImageButton.snp.bottom).offset(60)
+            $0.top.equalTo(addImageView.snp.bottom).offset(60)
             $0.height.equalTo(32)
             $0.leading.equalTo(40)
         }
