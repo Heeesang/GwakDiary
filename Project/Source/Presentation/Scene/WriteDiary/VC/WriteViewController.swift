@@ -18,6 +18,8 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
         return config
     }()
     
+    private lazy var mainPHPickerController = PHPickerViewController(configuration: mainPHConfiguration)
+    
     private lazy var writeContentLabel = UILabel().then {
         $0.text = "0/400"
         $0.textColor = .secondaryLabel
@@ -46,7 +48,7 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
         $0.layer.borderColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
     }
     
-    private let writeDiaryButton = UIButton().then {
+    private lazy var writeDiaryButton = UIButton().then {
         $0.setTitle("일기 작성", for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         $0.layer.cornerRadius = 20
