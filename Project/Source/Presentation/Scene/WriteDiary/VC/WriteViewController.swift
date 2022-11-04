@@ -2,13 +2,20 @@ import UIKit
 import PhotosUI
 
 class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
-    private let addImageView = UIImageView().then {
+    
+    private lazy var addImageView = UIImageView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.shadowRadius = 15
         $0.layer.shadowOffset = CGSize(width: 0, height: 0)
         $0.layer.shadowOpacity = 1
         $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.08).cgColor
+    }
+    
+    private lazy var addImageButton = UIButton().then {
+        $0.addTarget(self, action: #selector(addImage), for: .touchUpInside)
+        $0.setTitleColor(.link, for: .normal)
+        $0.setTitle("사진 추가", for: .normal)
     }
     
     private var mainPHConfiguration: PHPickerConfiguration = {
@@ -56,6 +63,11 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
         $0.addTarget(self, action: #selector(addDiary), for: .touchUpInside)
     }
     
+    @objc func addImage(_sender: UITapGestureRecognizer) {
+        self.present(mainPHPickerController, animated: true)
+        print("touch")
+    }
+    
     @objc func addDiary(_sender: Any) {
         let alert = UIAlertController(title: "일기 작성", message: "일기를 작성하시겠습니까?", preferredStyle: .alert)
         
@@ -75,10 +87,11 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
     override func configureVC() {
         writeDiaryTextView.delegate = self
         titleTextField.delegate = self
+        mainPHPickerController.delegate = self
     }
     
     override func addView() {
-        view.addSubViews(addImageView, titleTextField, writeContentLabel, writeDiaryTextView, writeDiaryButton)
+        view.addSubViews(addImageView, addImageButton, titleTextField, writeContentLabel, writeDiaryTextView, writeDiaryButton)
     }
     
     override func setLayout() {
@@ -86,6 +99,13 @@ class WriteDiaryViewController: baseVC<WriteDiaryViewModel> {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(view.safeAreaInsets).offset(100)
             $0.height.equalTo(102)
+            $0.leading.equalTo(100)
+        }
+        
+        addImageButton.snp.makeConstraints {
+            $0.top.equalTo(addImageView.snp.bottom).offset(7)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(40)
             $0.leading.equalTo(100)
         }
 
@@ -150,4 +170,25 @@ extension WriteDiaryViewController: UITextViewDelegate, UITextFieldDelegate {
           return true
       }
 
+}
+
+extension WriteDiaryViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
+        picker.dismiss(animated: true) 
+        
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider,
+           itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                DispatchQueue.main.async {
+                    self.addImageView.image = image as? UIImage
+                }
+            }
+        } else {
+        }
+    }
+    
 }

@@ -26,5 +26,5 @@ public extension Package {
     )
     static let RealmSwift = Package.remote(
             url: "https://github.com/realm/realm-swift",
-            requirement: .upToNextMajor(from: "10.29.0"))
+            requirement: .upToNextMajor(from: "10.32.2"))
 }
