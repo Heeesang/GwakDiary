@@ -23,6 +23,7 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     private lazy var diaryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
+        $0.refreshControl = refresh
         $0.backgroundColor = .clear
         $0.isScrollEnabled = true
         $0.showsHorizontalScrollIndicator = false
@@ -30,6 +31,14 @@ class MainViewController: baseVC<MainViewModel> {
         $0.clipsToBounds = true
         $0.register(DiaryCell.self, forCellWithReuseIdentifier: "MyCell")
     }
+    
+    private lazy var refresh: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+            
+        refreshControl.addTarget(self, action: #selector(collectionViewRefresh), for: .valueChanged)
+            
+        return refreshControl
+    }()
     
     private lazy var addButton = UIButton().then {
         $0.setTitle("글 쓰기", for: .normal)
@@ -40,12 +49,21 @@ class MainViewController: baseVC<MainViewModel> {
         $0.addTarget(self, action: #selector(writeDiaryButtonDidTap(_:)), for: .touchUpInside)
     }
     
+    @objc func collectionViewRefresh() {
+        print("gg")
+        viewModel.addMainData()
+        diaryCollectionView.reloadData()
+        refresh.endRefreshing()
+    }
+    
     @objc func writeDiaryButtonDidTap(_ sender: UIButton) {
         viewModel.writeDiaryButtonDidTap()
+        diaryCollectionView.reloadData()
     }
     
     @objc func readDiaryButtonDidTap(_ sender: UIButton) {
         viewModel.readDiaryButtonDidTap()
+        diaryCollectionView.reloadData()
     }
     
     override func addView() {
@@ -79,6 +97,7 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     override func configureVC() {
+        diaryCollectionView.reloadData()
         diaryCollectionView.dataSource = self
         diaryCollectionView.delegate = self
         viewModel.addMainData()
