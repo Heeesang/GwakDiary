@@ -4,7 +4,6 @@ import RealmSwift
 class MainViewModel: baseViewModel {
     
     var diarys: [DiaryModel] = []
-    var contents = ""
     var diary: DiaryModel = DiaryModel(title: "", contents: "")
     
     func addMainData() {

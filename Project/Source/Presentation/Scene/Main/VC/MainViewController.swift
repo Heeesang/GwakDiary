@@ -32,13 +32,9 @@ class MainViewController: baseVC<MainViewModel> {
         $0.register(DiaryCell.self, forCellWithReuseIdentifier: "MyCell")
     }
     
-    private lazy var refresh: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-            
-        refreshControl.addTarget(self, action: #selector(collectionViewRefresh), for: .valueChanged)
-            
-        return refreshControl
-    }()
+    private lazy var refresh = UIRefreshControl().then {
+        $0.addTarget(self, action: #selector(collectionViewRefresh), for: .valueChanged)
+    }
     
     private lazy var addButton = UIButton().then {
         $0.setTitle("글 쓰기", for: .normal)
