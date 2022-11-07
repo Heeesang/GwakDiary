@@ -45,21 +45,21 @@ class MainViewController: baseVC<MainViewModel> {
         $0.addTarget(self, action: #selector(writeDiaryButtonDidTap(_:)), for: .touchUpInside)
     }
     
-    @objc func collectionViewRefresh() {
-        print("gg")
+    override func viewWillAppear(_ animated: Bool) {
         viewModel.addMainData()
         diaryCollectionView.reloadData()
+    }
+    
+    @objc func collectionViewRefresh() {
         refresh.endRefreshing()
     }
     
     @objc func writeDiaryButtonDidTap(_ sender: UIButton) {
         viewModel.writeDiaryButtonDidTap()
-        diaryCollectionView.reloadData()
     }
     
     @objc func readDiaryButtonDidTap(_ sender: UIButton) {
         viewModel.readDiaryButtonDidTap()
-        diaryCollectionView.reloadData()
     }
     
     override func addView() {
@@ -98,24 +98,31 @@ class MainViewController: baseVC<MainViewModel> {
         diaryCollectionView.delegate = self
         viewModel.addMainData()
     }
+    
+    override func bindVM() {
+        viewModel.datasource.bind { _ in
+            DispatchQueue.main.async {
+                self.diaryCollectionView.reloadData()
+            }
+        }
+    }
 }
 
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel.diarys.count
+        return self.viewModel.datasource.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCell.id, for: indexPath) as! DiaryCell
-        cell.prepare(title: viewModel.diarys[indexPath.row].title)
+        cell.prepare(title: viewModel.datasource.value[indexPath.row].title)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("touch")
-        let diary = viewModel.diarys[indexPath.row]
+        let diary = viewModel.datasource.value[indexPath.row]
         print(diary)
-        viewModel.diary = diary
         viewModel.readDiaryButtonDidTap()
     }
 }
