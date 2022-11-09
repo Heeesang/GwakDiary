@@ -36,7 +36,15 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     }
     
     @objc func deleteButtonDidTap() {
-        viewModel.deleteButtonDidTap()
+        let alert = UIAlertController(title: "일기 삭제", message: "일기를 삭제하시겠습니까?", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: { action in self.viewModel.deleteButtonDidTap() })
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func dataInsert() {
