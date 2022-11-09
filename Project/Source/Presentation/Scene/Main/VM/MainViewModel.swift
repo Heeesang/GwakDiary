@@ -14,10 +14,8 @@ class MainViewModel: baseViewModel {
         self.diarys = results.toArray()
         print(diarys)
         let fileURL = Realm.Configuration.defaultConfiguration.fileURL
-        print(fileURL)
+        print(fileURL!)
     }
-    
-    
     
     func writeDiaryButtonDidTap() {
         coordinator.navigate(to: .writeDiaryRequired)

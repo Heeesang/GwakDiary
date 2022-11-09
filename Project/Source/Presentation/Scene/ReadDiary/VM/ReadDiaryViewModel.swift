@@ -11,4 +11,15 @@ class ReadDiaryViewModel: baseViewModel {
         super.init(coordinator: coordinator)
         self.datasource = diary
     }
+    
+    func deleteButtonDidTap() {
+        let realm = try! Realm()
+        guard let diary = realm.object(ofType: DiaryModel.self, forPrimaryKey: datasource.value.id) else { return }
+
+        try! realm.write {
+          realm.delete(diary)
+        }
+        
+        coordinator.navigate(to: .popVC)
+    }
 }

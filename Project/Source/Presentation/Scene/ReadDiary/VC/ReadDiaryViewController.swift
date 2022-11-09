@@ -29,13 +29,23 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
         $0.layer.borderColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
     }
     
+    private lazy var deleteButton = UIButton().then {
+        $0.addTarget(self, action: #selector(deleteButtonDidTap), for: .touchUpInside)
+        $0.setTitleColor(.systemRed, for: .normal)
+        $0.setTitle("일기 삭제", for: .normal)
+    }
+    
+    @objc func deleteButtonDidTap() {
+        viewModel.deleteButtonDidTap()
+    }
+    
     func dataInsert() {
         self.titleLabel.text = viewModel.datasource.value.title
         self.contentsLabel.text = viewModel.datasource.value.contents
     }
     
     override func addView() {
-        view.addSubViews(mainImageView,titleLabel,contentsLabel)
+        view.addSubViews(mainImageView,titleLabel,contentsLabel, deleteButton)
     }
     
     override func setLayout() {
@@ -58,6 +68,12 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
             $0.top.equalTo(titleLabel.snp.bottom).offset(40)
             $0.height.equalTo(333)
             $0.leading.equalTo(40)
+        }
+        
+        deleteButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(contentsLabel.snp.bottom).offset(40)
+            $0.height.equalTo(30)
         }
     }
     
