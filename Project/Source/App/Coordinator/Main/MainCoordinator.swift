@@ -25,7 +25,7 @@ private extension MainCoordinator {
     func navigatePopVC() {
         self.navigationController.popViewController(animated: true)
     }
-    func navigateToReadDiary(diary: DiaryModel) {
+    func navigateToReadDiary(diary: Observable<DiaryModel>) {
         let vm = ReadDiaryViewModel(coordinator: self, diary: diary)
         let vc = ReadDiaryViewController(viewModel: vm)
         self.navigationController.pushViewController(vc, animated: true)

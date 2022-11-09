@@ -3,7 +3,7 @@ import RealmSwift
 
 class MainViewModel: baseViewModel {
     
-    var datasource = Observable([DiaryModel]())
+    var datasource = Observable(DiaryModel())
     var diarys: [DiaryModel] = []
     var diary: DiaryModel = DiaryModel(title: "", contents: "")
     
@@ -11,16 +11,20 @@ class MainViewModel: baseViewModel {
         let realm = try! Realm()
         let results = realm.objects(DiaryModel.self)
         
-        self.datasource.value = results.toArray()
-        print(datasource.value)
+        self.diarys = results.toArray()
+        print(diarys)
+        let fileURL = Realm.Configuration.defaultConfiguration.fileURL
+        print(fileURL)
     }
+    
+    
     
     func writeDiaryButtonDidTap() {
         coordinator.navigate(to: .writeDiaryRequired)
     }
     
     func readDiaryButtonDidTap() {
-        coordinator.navigate(to: .readDiaryRequired(diary: diary))
+        coordinator.navigate(to: .readDiaryRequired(diary: datasource))
     }
 }
 

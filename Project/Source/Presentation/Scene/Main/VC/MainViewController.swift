@@ -110,19 +110,20 @@ class MainViewController: baseVC<MainViewModel> {
 
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel.datasource.value.count
+        return self.viewModel.diarys.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCell.id, for: indexPath) as! DiaryCell
-        cell.prepare(title: viewModel.datasource.value[indexPath.row].title)
+        cell.prepare(title: viewModel.diarys[indexPath.row].title)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("touch")
-        let diary = viewModel.datasource.value[indexPath.row]
+        let diary = viewModel.diarys[indexPath.row]
         print(diary)
+        viewModel.datasource.value = diary
         viewModel.readDiaryButtonDidTap()
     }
 }
