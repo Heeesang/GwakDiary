@@ -35,7 +35,7 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
         $0.setTitle("일기 삭제", for: .normal)
     }
     
-    @objc func deleteButtonDidTap() {
+    @objc func deleteButtonDidTap(_ sender: UIButton) {
         let alert = UIAlertController(title: "일기 삭제", message: "일기를 삭제하시겠습니까?", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "확인", style: .default, handler: { action in self.viewModel.deleteButtonDidTap() })
@@ -50,6 +50,7 @@ class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     func dataInsert() {
         self.titleLabel.text = viewModel.datasource.value.title
         self.contentsLabel.text = viewModel.datasource.value.contents
+        self.mainImageView.image = viewModel.loadImageFromDocumentDirectory(imageName: "\(viewModel.datasource.value.id).png")
     }
     
     override func addView() {

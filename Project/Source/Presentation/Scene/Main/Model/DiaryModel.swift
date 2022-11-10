@@ -1,4 +1,5 @@
 import RealmSwift
+import UIKit
 import Foundation
 
 class DiaryModel: Object {
