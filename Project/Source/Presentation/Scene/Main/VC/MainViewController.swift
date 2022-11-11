@@ -18,22 +18,17 @@ class MainViewController: baseVC<MainViewModel> {
     
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
-        $0.minimumLineSpacing = 35
+        $0.minimumLineSpacing = 36
         $0.itemSize = CGSize(width: 186, height: 272)
     }
     
     private lazy var diaryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
-        $0.refreshControl = refresh
         $0.backgroundColor = .clear
         $0.isScrollEnabled = true
         $0.showsHorizontalScrollIndicator = false
         $0.showsVerticalScrollIndicator = true
         $0.clipsToBounds = true
         $0.register(DiaryCell.self, forCellWithReuseIdentifier: "MyCell")
-    }
-    
-    private lazy var refresh = UIRefreshControl().then {
-        $0.addTarget(self, action: #selector(collectionViewRefresh), for: .valueChanged)
     }
     
     private lazy var addButton = UIButton().then {
@@ -48,10 +43,6 @@ class MainViewController: baseVC<MainViewModel> {
     override func viewWillAppear(_ animated: Bool) {
         viewModel.addMainData()
         diaryCollectionView.reloadData()
-    }
-    
-    @objc func collectionViewRefresh() {
-        refresh.endRefreshing()
     }
     
     @objc func writeDiaryButtonDidTap(_ sender: UIButton) {
@@ -125,5 +116,16 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         print(diary)
         viewModel.datasource.value = diary
         viewModel.readDiaryButtonDidTap()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        let totalCellWidth = 85 * collectionView.numberOfItems(inSection: 0)
+        let totalSpacingWidth = 10 * (collectionView.numberOfItems(inSection: 0) - 1)
+        
+        let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
+        let rightInset = leftInset
+        
+        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
     }
 }
