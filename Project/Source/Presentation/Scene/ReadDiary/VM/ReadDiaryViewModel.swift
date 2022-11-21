@@ -24,16 +24,14 @@ class ReadDiaryViewModel: baseViewModel {
     }
     
     func loadImageFromDocumentDirectory(imageName: String) -> UIImage? {
-            
-            // 1. 도큐먼트 폴더 경로가져오기
             let documentDirectory = FileManager.SearchPathDirectory.documentDirectory
             let userDomainMask = FileManager.SearchPathDomainMask.userDomainMask
             let path = NSSearchPathForDirectoriesInDomains(documentDirectory, userDomainMask, true)
             
             if let directoryPath = path.first {
-            // 2. 이미지 URL 찾기
+            
                 let imageURL = URL(fileURLWithPath: directoryPath).appendingPathComponent(imageName)
-                // 3. UIImage로 불러오기
+                
                 return UIImage(contentsOfFile: imageURL.path)
             }
             
