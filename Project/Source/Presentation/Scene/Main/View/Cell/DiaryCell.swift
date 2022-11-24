@@ -17,6 +17,9 @@ final class DiaryCell: baseCollectionViewCell<DiaryModel> {
     
     override func addView() {
         addSubViews(diaryTitleView, diaryLineView)
+    }
+    
+    override func configureCell() {
         backgroundColor = .white
         contentMode = .scaleAspectFill
         layer.cornerRadius = 10

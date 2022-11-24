@@ -19,7 +19,7 @@ class MainViewController: baseVC<MainViewModel> {
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 36
-        $0.itemSize = CGSize(width: 186, height: 272)
+        $0.itemSize = CGSize(width: 186, height: 102)
     }
     
     private lazy var diaryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
@@ -40,9 +40,21 @@ class MainViewController: baseVC<MainViewModel> {
         $0.addTarget(self, action: #selector(writeDiaryButtonDidTap(_:)), for: .touchUpInside)
     }
     
+    private let diaryListLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 23)
+        $0.text = "일기목록"
+    }
+    
+    private let diaryListTableView = UITableView(frame: .zero, style: .plain).then {
+        $0.rowHeight = 60
+        $0.backgroundColor = .red
+        $0.register(DiaryTableViewCell.self, forCellReuseIdentifier: "DiaryCell")
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         viewModel.addMainData()
         diaryCollectionView.reloadData()
+        diaryListTableView.reloadData()
     }
     
     @objc func writeDiaryButtonDidTap(_ sender: UIButton) {
@@ -54,13 +66,14 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     override func addView() {
-        view.addSubViews(mainTextLabel, subTextLabel, diaryCollectionView, addButton)
+        view.addSubViews(mainTextLabel, subTextLabel, diaryCollectionView, addButton, diaryListLabel)
+        view.addSubview(diaryListTableView)
     }
     
     override func setLayout() {
         diaryCollectionView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.height.equalTo(300)
+            $0.top.equalTo(subTextLabel.snp.bottom).offset(10)
+            $0.height.equalTo(200)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
         }
@@ -77,16 +90,30 @@ class MainViewController: baseVC<MainViewModel> {
         
         addButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(diaryCollectionView.snp.bottom).offset(80)
+            $0.top.equalTo(diaryCollectionView.snp.bottom).offset(10)
             $0.height.equalTo(35)
             $0.leading.equalTo(120)
         }
+        
+        diaryListLabel.snp.makeConstraints {
+            $0.top.equalTo(addButton.snp.bottom).offset(15)
+            $0.leading.equalTo(diaryCollectionView.snp.leading).offset(15)
+        }
+        
+        diaryListTableView.snp.makeConstraints {
+            $0.top.equalTo(diaryListLabel.snp.bottom).offset(15)
+            $0.height.equalTo(130)
+        }
+        
     }
     
     override func configureVC() {
         diaryCollectionView.reloadData()
         diaryCollectionView.dataSource = self
         diaryCollectionView.delegate = self
+        diaryListTableView.dataSource = self
+        diaryListTableView.delegate = self
+        diaryListTableView.rowHeight = 50
         viewModel.addMainData()
     }
     
@@ -94,6 +121,7 @@ class MainViewController: baseVC<MainViewModel> {
         viewModel.datasource.bind { _ in
             DispatchQueue.main.async {
                 self.diaryCollectionView.reloadData()
+                self.diaryListTableView.reloadData()
             }
         }
     }
@@ -127,5 +155,17 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let rightInset = leftInset
         
         return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+    }
+}
+
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.viewModel.diarys.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = diaryListTableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.cellId, for: indexPath) as! DiaryTableViewCell
+        cell.prepare(title: viewModel.diarys[indexPath.row].title)
+        return cell
     }
 }

@@ -14,7 +14,7 @@ let project = Project.excutable(
         .RealmSwift
     ],
     product: .app,
-    deploymentTarget: .iOS(targetVersion: "13.5", devices: [.iphone, .ipad]),
+    deploymentTarget: .iOS(targetVersion: "14.0", devices: [.iphone, .ipad]),
     dependencies: [
         .SPM.Then,
         .SPM.SnapKit,
