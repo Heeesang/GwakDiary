@@ -1,8 +1,8 @@
 import UIKit
 
-class DiaryTableViewCell: BaseTableViewCell<DiaryModel> {
+class DiaryListCollectionViewCell: baseCollectionViewCell<DiaryModel> {
     
-    static let cellId = "DiaryCell"
+    static let id = "DiaryCell"
     
     private let diaryTitleLabel = UILabel().then {
         $0.text = ""
@@ -30,13 +30,10 @@ class DiaryTableViewCell: BaseTableViewCell<DiaryModel> {
     
     override func setLayout() {
         diaryTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
-            $0.leading.equalToSuperview().offset(15)
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().offset(30)
         }
-        diaryDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(diaryTitleLabel.snp.bottom).offset(10)
-            $0.leading.equalTo(diaryTitleLabel.snp.leading)
-        }
+       
     }
     
     func prepare(title: String?) {

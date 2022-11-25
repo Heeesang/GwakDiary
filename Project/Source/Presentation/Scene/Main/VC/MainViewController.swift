@@ -24,13 +24,13 @@ class MainViewController: baseVC<MainViewModel> {
         $0.itemSize = CGSize(width: 186, height: 102)
     }
     
-    private lazy var diaryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
+    private lazy var questionCollectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
         $0.backgroundColor = .clear
         $0.isScrollEnabled = true
         $0.showsHorizontalScrollIndicator = false
         $0.showsVerticalScrollIndicator = true
         $0.clipsToBounds = true
-        $0.register(DiaryCell.self, forCellWithReuseIdentifier: "MyCell")
+        $0.register(QuestionCell.self, forCellWithReuseIdentifier: "MyCell")
     }
     
     private lazy var addButton = UIButton().then {
@@ -47,17 +47,15 @@ class MainViewController: baseVC<MainViewModel> {
         $0.text = "일기목록"
     }
     
-    private let diaryListTableView = UITableView(frame: .zero, style: .plain).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.rowHeight = 60
+    private let diaryListCollectionView = UICollectionView().then {
         $0.backgroundColor = .red
-        $0.register(UITableViewCell.self, forCellReuseIdentifier: "DiaryCell")
+        $0.register(DiaryListCollectionViewCell.self, forCellWithReuseIdentifier: "DiaryCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         viewModel.addMainData()
-        diaryCollectionView.reloadData()
-        diaryListTableView.reloadData()
+        questionCollectionView.reloadData()
+        diaryListCollectionView.reloadData()
     }
     
     @objc func writeDiaryButtonDidTap(_ sender: UIButton) {
@@ -69,11 +67,11 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     override func addView() {
-        view.addSubViews(diaryListTableView, mainTextLabel, subTextLabel, diaryCollectionView, addButton, diaryListLabel)
+        view.addSubViews(diaryListCollectionView, mainTextLabel, subTextLabel, questionCollectionView, addButton, diaryListLabel)
     }
     
     override func setLayout() {
-        diaryCollectionView.snp.makeConstraints {
+        questionCollectionView.snp.makeConstraints {
             $0.top.equalTo(subTextLabel.snp.bottom).offset(10)
             $0.height.equalTo(200)
             $0.leading.equalToSuperview()
@@ -92,38 +90,38 @@ class MainViewController: baseVC<MainViewModel> {
         
         addButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(diaryCollectionView.snp.bottom).offset(10)
+            $0.top.equalTo(questionCollectionView.snp.bottom).offset(10)
             $0.height.equalTo(35)
             $0.leading.equalTo(120)
         }
         
         diaryListLabel.snp.makeConstraints {
             $0.top.equalTo(addButton.snp.bottom).offset(15)
-            $0.leading.equalTo(diaryCollectionView.snp.leading).offset(15)
+            $0.leading.equalTo(questionCollectionView.snp.leading).offset(15)
         }
         
-        diaryListTableView.snp.makeConstraints {
+        diaryListCollectionView.snp.makeConstraints {
             $0.top.equalTo(diaryListLabel.snp.bottom).offset(15)
-            $0.height.equalTo(130)
+            $0.height.equalTo(250)
             $0.width.equalToSuperview()
         }
         
     }
     
     override func configureVC() {
-        diaryCollectionView.reloadData()
-        diaryCollectionView.dataSource = self
-        diaryCollectionView.delegate = self
-        diaryListTableView.dataSource = self
-        diaryListTableView.delegate = self
+        questionCollectionView.reloadData()
+        questionCollectionView.dataSource = self
+        questionCollectionView.delegate = self
+        diaryListCollectionView.dataSource = self
+        diaryListCollectionView.delegate = self
         viewModel.addMainData()
     }
     
     override func bindVM() {
         viewModel.datasource.bind { _ in
             DispatchQueue.main.async {
-                self.diaryCollectionView.reloadData()
-                self.diaryListTableView.reloadData()
+                self.questionCollectionView.reloadData()
+                self.diaryListCollectionView.reloadData()
             }
         }
     }
@@ -131,43 +129,57 @@ class MainViewController: baseVC<MainViewModel> {
 
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.viewModel.diarys.count
+        if collectionView == questionCollectionView {
+            return self.viewModel.diarys.count
+        }
+        else if collectionView == diaryListCollectionView {
+            return self.viewModel.diarys.count
+        }
+        else {
+            return self.viewModel.diarys.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCell.id, for: indexPath) as! DiaryCell
-        cell.prepare(title: viewModel.diarys[indexPath.row].title)
-        return cell
+        if collectionView == questionCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QuestionCell.id, for: indexPath) as! QuestionCell
+            cell.prepare(title: viewModel.diarys[indexPath.row].title)
+            return cell
+        }
+        if collectionView == diaryListCollectionView{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryListCollectionViewCell.id, for: indexPath) as! DiaryListCollectionViewCell
+            cell.prepare(title: viewModel.diarys[indexPath.row].title)
+            return cell
+        }
+        else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryListCollectionViewCell.id, for: indexPath) as! DiaryListCollectionViewCell
+            cell.prepare(title: viewModel.diarys[indexPath.row].title)
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("touch")
-        let diary = viewModel.diarys[indexPath.row]
-        print(diary)
-        viewModel.datasource.value = diary
-        viewModel.readDiaryButtonDidTap()
+        if collectionView == questionCollectionView {
+            print("touch")
+            let diary = viewModel.diarys[indexPath.row]
+            print(diary)
+            viewModel.datasource.value = diary
+            viewModel.readDiaryButtonDidTap()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        let totalCellWidth = 85 * collectionView.numberOfItems(inSection: 0)
-        let totalSpacingWidth = 10 * (collectionView.numberOfItems(inSection: 0) - 1)
-        
-        let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
-        let rightInset = leftInset
-        
-        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
-    }
-}
-
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DiaryCell", for: indexPath) as! UITableViewCell
-        cell.textLabel?.text = items[indexPath.row]
-        return cell
+        if collectionView == questionCollectionView {
+            let totalCellWidth = 85 * collectionView.numberOfItems(inSection: 0)
+            let totalSpacingWidth = 10 * (collectionView.numberOfItems(inSection: 0) - 1)
+            
+            let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
+            let rightInset = leftInset
+            
+            return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+        }
+        else {
+            return UIEdgeInsets()
+        }
     }
 }

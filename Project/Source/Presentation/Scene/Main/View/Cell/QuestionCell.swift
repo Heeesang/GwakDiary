@@ -1,6 +1,6 @@
 import UIKit
 
-final class DiaryCell: baseCollectionViewCell<DiaryModel> {
+final class QuestionCell: baseCollectionViewCell<DiaryModel> {
     
     static let id = "MyCell"
     
