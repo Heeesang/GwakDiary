@@ -4,6 +4,8 @@ import Then
 import RealmSwift
 
 class MainViewController: baseVC<MainViewModel> {
+    let items: [String] = ["abc", "def", "ghi"]
+    
     private let mainTextLabel = UILabel().then {
         $0.text = "곽. Diary"
         $0.font = .systemFont(ofSize: 20, weight: .semibold)
@@ -46,9 +48,10 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     private let diaryListTableView = UITableView(frame: .zero, style: .plain).then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.rowHeight = 60
         $0.backgroundColor = .red
-        $0.register(DiaryTableViewCell.self, forCellReuseIdentifier: "DiaryCell")
+        $0.register(UITableViewCell.self, forCellReuseIdentifier: "DiaryCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,8 +69,7 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     override func addView() {
-        view.addSubViews(mainTextLabel, subTextLabel, diaryCollectionView, addButton, diaryListLabel)
-        view.addSubview(diaryListTableView)
+        view.addSubViews(diaryListTableView, mainTextLabel, subTextLabel, diaryCollectionView, addButton, diaryListLabel)
     }
     
     override func setLayout() {
@@ -103,6 +105,7 @@ class MainViewController: baseVC<MainViewModel> {
         diaryListTableView.snp.makeConstraints {
             $0.top.equalTo(diaryListLabel.snp.bottom).offset(15)
             $0.height.equalTo(130)
+            $0.width.equalToSuperview()
         }
         
     }
@@ -113,7 +116,6 @@ class MainViewController: baseVC<MainViewModel> {
         diaryCollectionView.delegate = self
         diaryListTableView.dataSource = self
         diaryListTableView.delegate = self
-        diaryListTableView.rowHeight = 50
         viewModel.addMainData()
     }
     
@@ -160,12 +162,12 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.diarys.count
+        return self.items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = diaryListTableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.cellId, for: indexPath) as! DiaryTableViewCell
-        cell.prepare(title: viewModel.diarys[indexPath.row].title)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DiaryCell", for: indexPath) as! UITableViewCell
+        cell.textLabel?.text = items[indexPath.row]
         return cell
     }
 }
