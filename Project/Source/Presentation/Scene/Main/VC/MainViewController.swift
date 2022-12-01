@@ -43,13 +43,24 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     private let diaryListLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 23)
+        $0.font = .systemFont(ofSize: 20, weight: .semibold)
+        $0.textColor = UIColor(red: 0.475, green: 0.475, blue: 0.475, alpha: 1)
         $0.text = "일기목록"
     }
     
-    private let diaryListCollectionView = UICollectionView().then {
-        $0.backgroundColor = .red
-        $0.register(DiaryListCollectionViewCell.self, forCellWithReuseIdentifier: "DiaryCell")
+    private let verticalFlowLayout = UICollectionViewFlowLayout().then {
+        $0.scrollDirection = .vertical
+        $0.minimumLineSpacing = 36
+        $0.itemSize = CGSize(width: 258, height: 102)
+    }
+    
+    private lazy var diaryListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: verticalFlowLayout).then {
+        $0.backgroundColor = .clear
+        $0.isScrollEnabled = true
+        $0.showsHorizontalScrollIndicator = true
+        $0.showsVerticalScrollIndicator = false
+        $0.clipsToBounds = true
+        $0.register(DiaryListCollectionViewCell.self, forCellWithReuseIdentifier: DiaryListCollectionViewCell.id)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,7 +91,7 @@ class MainViewController: baseVC<MainViewModel> {
         
         mainTextLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(130)
+            $0.top.equalToSuperview().offset(90)
         }
         
         subTextLabel.snp.makeConstraints {
@@ -90,20 +101,21 @@ class MainViewController: baseVC<MainViewModel> {
         
         addButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(questionCollectionView.snp.bottom).offset(10)
+            $0.bottom.equalToSuperview().inset(70)
             $0.height.equalTo(35)
-            $0.leading.equalTo(120)
+            $0.leading.equalTo(100)
         }
         
         diaryListLabel.snp.makeConstraints {
-            $0.top.equalTo(addButton.snp.bottom).offset(15)
-            $0.leading.equalTo(questionCollectionView.snp.leading).offset(15)
+            $0.top.equalTo(questionCollectionView.snp.bottom).offset(5)
+            $0.leading.equalTo(questionCollectionView.snp.leading).offset(45)
         }
         
         diaryListCollectionView.snp.makeConstraints {
-            $0.top.equalTo(diaryListLabel.snp.bottom).offset(15)
-            $0.height.equalTo(250)
-            $0.width.equalToSuperview()
+            $0.top.equalTo(diaryListLabel.snp.bottom).offset(25)
+            $0.bottom.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
         
     }
@@ -170,16 +182,39 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView == questionCollectionView {
-            let totalCellWidth = 85 * collectionView.numberOfItems(inSection: 0)
+            let totalCellWidth = 58 * collectionView.numberOfItems(inSection: 0)
             let totalSpacingWidth = 10 * (collectionView.numberOfItems(inSection: 0) - 1)
-            
+
             let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
             let rightInset = leftInset
-            
+
             return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+        }
+        if collectionView == diaryListCollectionView {
+            let totalCellWidth = 108 * collectionView.numberOfItems(inSection: 0)
+            let totalSpacingWidth = 10 * (collectionView.numberOfItems(inSection: 0) - 1)
+
+            let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
+
+            return UIEdgeInsets(top: leftInset, left: 0, bottom: 100, right: 0)
+
         }
         else {
             return UIEdgeInsets()
+        }
+    }
+
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        UIView.animate(withDuration: 0.5) { [weak self] in
+            guard velocity.y != 0 else { return }
+            if velocity.y < 0 {
+                let height = self?.tabBarController?.tabBar.frame.height ?? 0.0
+                self?.tabBarController?.tabBar.alpha = 1.0
+                self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY - height)
+            } else {
+                self?.tabBarController?.tabBar.alpha = 0.0
+                self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY)
+            }
         }
     }
 }

@@ -1,21 +1,17 @@
 import UIKit
 
-class DiaryListCollectionViewCell: baseCollectionViewCell<DiaryModel> {
+final class DiaryListCollectionViewCell: baseCollectionViewCell<DiaryModel> {
     
     static let id = "DiaryCell"
     
     private let diaryTitleLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 15)
         $0.text = ""
-        $0.font = .systemFont(ofSize: 13, weight: .bold)
+        $0.textColor = UIColor(red: 0.633, green: 0.625, blue: 0.625, alpha: 1)
     }
     
-    private let diaryDescriptionLabel = UILabel().then {
-        $0.text = ""
-        $0.font = .systemFont(ofSize: 10)
-    }
-    
-    override func addSubview(_ view: UIView) {
-        addSubViews(diaryTitleLabel, diaryDescriptionLabel)
+    override func addView() {
+        addSubViews(diaryTitleLabel)
     }
     
     override func configureCell() {
@@ -33,7 +29,12 @@ class DiaryListCollectionViewCell: baseCollectionViewCell<DiaryModel> {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(30)
         }
-       
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.prepare(title: nil)
     }
     
     func prepare(title: String?) {
