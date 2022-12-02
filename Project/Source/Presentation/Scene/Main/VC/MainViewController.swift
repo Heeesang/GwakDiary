@@ -182,39 +182,13 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView == questionCollectionView {
-            let totalCellWidth = 58 * collectionView.numberOfItems(inSection: 0)
-            let totalSpacingWidth = 10 * (collectionView.numberOfItems(inSection: 0) - 1)
-
-            let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
-            let rightInset = leftInset
-
-            return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+            return UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 0)
         }
         if collectionView == diaryListCollectionView {
-            let totalCellWidth = 108 * collectionView.numberOfItems(inSection: 0)
-            let totalSpacingWidth = 10 * (collectionView.numberOfItems(inSection: 0) - 1)
-
-            let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
-
-            return UIEdgeInsets(top: leftInset, left: 0, bottom: 100, right: 0)
-
+            return UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         }
         else {
             return UIEdgeInsets()
-        }
-    }
-
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        UIView.animate(withDuration: 0.5) { [weak self] in
-            guard velocity.y != 0 else { return }
-            if velocity.y < 0 {
-                let height = self?.tabBarController?.tabBar.frame.height ?? 0.0
-                self?.tabBarController?.tabBar.alpha = 1.0
-                self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY - height)
-            } else {
-                self?.tabBarController?.tabBar.alpha = 0.0
-                self?.tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.maxY)
-            }
         }
     }
 }
