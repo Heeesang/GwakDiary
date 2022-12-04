@@ -11,7 +11,8 @@ let project = Project.excutable(
         .Then,
         .SnapKit,
         .GoogleSignIn,
-        .RealmSwift
+        .RealmSwift,
+        .Lottie
     ],
     product: .app,
     deploymentTarget: .iOS(targetVersion: "14.0", devices: [.iphone, .ipad]),
@@ -19,6 +20,7 @@ let project = Project.excutable(
         .SPM.Then,
         .SPM.SnapKit,
         .SPM.GoogleSignIn,
-        .SPM.RealmSwift
+        .SPM.RealmSwift,
+        .SPM.Lottie
     ]
 )

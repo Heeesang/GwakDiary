@@ -9,6 +9,7 @@ public extension TargetDependency.SPM{
     static let Then = TargetDependency.package(product: "Then")
     static let GoogleSignIn = TargetDependency.package(product: "GoogleSignIn")
     static let RealmSwift = TargetDependency.package(product: "RealmSwift")
+    static let Lottie = TargetDependency.package(product: "Lottie")
 }
 
 public extension Package {
@@ -25,6 +26,9 @@ public extension Package {
         requirement: .upToNextMajor(from: "6.2.2")
     )
     static let RealmSwift = Package.remote(
-            url: "https://github.com/realm/realm-swift",
-            requirement: .upToNextMajor(from: "10.32.2"))
+        url: "https://github.com/realm/realm-swift",
+        requirement: .upToNextMajor(from: "10.32.2"))
+    static let Lottie = Package.remote(
+        url: "https://github.com/airbnb/lottie-ios",
+        requirement: .upToNextMajor(from:"3.5.0"))
 }

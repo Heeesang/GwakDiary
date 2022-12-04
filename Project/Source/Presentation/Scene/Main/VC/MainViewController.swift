@@ -43,7 +43,7 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     private let diaryListLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 20, weight: .semibold)
+        $0.font = .systemFont(ofSize: 18, weight: .semibold)
         $0.textColor = UIColor(red: 0.475, green: 0.475, blue: 0.475, alpha: 1)
         $0.text = "일기목록"
     }
@@ -100,19 +100,19 @@ class MainViewController: baseVC<MainViewModel> {
         }
         
         addButton.snp.makeConstraints {
+            $0.top.equalTo(diaryListLabel.snp.bottom).offset(15)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(70)
-            $0.height.equalTo(35)
-            $0.leading.equalTo(100)
+            $0.height.equalTo(40)
+            $0.leading.equalTo(68)
         }
         
         diaryListLabel.snp.makeConstraints {
-            $0.top.equalTo(questionCollectionView.snp.bottom).offset(5)
-            $0.leading.equalTo(questionCollectionView.snp.leading).offset(45)
+            $0.top.equalTo(questionCollectionView.snp.bottom).offset(10)
+            $0.leading.equalTo(addButton.snp.leading)
         }
         
         diaryListCollectionView.snp.makeConstraints {
-            $0.top.equalTo(diaryListLabel.snp.bottom).offset(25)
+            $0.top.equalTo(addButton.snp.bottom).offset(25)
             $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
