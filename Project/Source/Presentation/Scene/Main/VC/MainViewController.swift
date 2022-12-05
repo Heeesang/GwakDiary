@@ -171,7 +171,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == questionCollectionView {
+        if collectionView == diaryListCollectionView {
             print("touch")
             let diary = viewModel.diarys[indexPath.row]
             print(diary)
@@ -182,7 +182,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView == questionCollectionView {
-            return UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 0)
+            return UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         }
         if collectionView == diaryListCollectionView {
             return UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
