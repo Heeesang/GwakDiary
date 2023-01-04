@@ -3,6 +3,7 @@ import UIKit
 class ReadDiaryViewController: baseVC<ReadDiaryViewModel> {
     
     private let mainImageView = UIImageView().then{
+        $0.clipsToBounds = true
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.shadowRadius = 15

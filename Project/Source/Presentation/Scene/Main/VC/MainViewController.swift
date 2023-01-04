@@ -12,12 +12,6 @@ class MainViewController: baseVC<MainViewModel> {
         $0.textColor = UIColor(red: 0.475, green: 0.475, blue: 0.475, alpha: 1)
     }
     
-    private let subTextLabel = UILabel().then {
-        $0.text = "오늘의 장면을 기록하세요"
-        $0.font = .systemFont(ofSize: 12, weight: .semibold)
-        $0.textColor = UIColor(red: 0.475, green: 0.475, blue: 0.475, alpha: 1)
-    }
-    
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 36
@@ -78,12 +72,12 @@ class MainViewController: baseVC<MainViewModel> {
     }
     
     override func addView() {
-        view.addSubViews(diaryListCollectionView, mainTextLabel, subTextLabel, questionCollectionView, addButton, diaryListLabel)
+        view.addSubViews(diaryListCollectionView, mainTextLabel, questionCollectionView, addButton, diaryListLabel)
     }
     
     override func setLayout() {
         questionCollectionView.snp.makeConstraints {
-            $0.top.equalTo(subTextLabel.snp.bottom).offset(10)
+            $0.top.equalTo(mainTextLabel.snp.bottom).offset(10)
             $0.height.equalTo(200)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
@@ -92,11 +86,6 @@ class MainViewController: baseVC<MainViewModel> {
         mainTextLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().offset(90)
-        }
-        
-        subTextLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(mainTextLabel.snp.bottom).offset(13)
         }
         
         addButton.snp.makeConstraints {
